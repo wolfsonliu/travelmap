@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script src="element/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="element/china.js" type="text/javascript" charset="utf-8"></script>
+<script src="data.js" type="text/javascript" charset="utf-8"></script>
+<title>旅行足迹</title>
+</head>
+<body>
+<div id="main" style="width: 1200px;height:900px;">
+<script type="text/javascript">
+
+travelrange = [0, Math.max.apply(Math, travel.map(function(x) {return x.value;}))]
+travelcut = (travelrange[1] - travelrange[0]) / 5;
+
+var optionMap = {
+    backgroundColor: '#FFFFFF',
+    title: {
+        text: user + '的中国旅行地图',
+        subtext: '',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item'
+    },
+    toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {readOnly: false},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    // 图例
+    visualMap: {
+        min: travelrange[0],
+        max: travelrange[1],
+        text: ['多','少'],
+        realtime: false,
+        calculable: true,
+        inRange: {
+            color: ['#f0f0f0','#feedde','#fdd0a2','#fdae6b','#fd8d3c','#e6550d']
+        }
+    },
+    // 配置属性
+    series: [{
+        name: '旅行',
+        type: 'map',
+        mapType: 'china',
+        roam: true,
+        label: {
+            normal: {
+                show: false  //省份名称
+            },
+            emphasis: {
+                show: false
+            }
+        },
+        data:travel  //数据
+    }]
+};
+
+var dom = document.getElementById("main");
+var myChart = echarts.init(dom);
+
+myChart.setOption(optionMap);
+
+</script>
+</div>
+</body>
+</html>
